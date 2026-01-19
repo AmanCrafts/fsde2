@@ -2,38 +2,44 @@ name: Multiple Job CI
 
 on: push
 
+
+## i want 4 different joobs to lint, build, test and deploy
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+      - name: Lint Code
+        run: |
+          echo "Linting code..."
+          # Add your linting commands here
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run build
-        run: npm run build
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Project
+        run: |
+          echo "Building project..."
+          # Add your build commands here
 
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          # Add your testing commands here
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy Application
+        run: |
+          echo "Deploying application..."
+          # Add your deployment commands here
