@@ -6,7 +6,7 @@ on: push
 jobs: 
     build-test:
         name: Build test and deploy
-        runs-on: ubuntu@latest
+        runs-on: ubuntu-latest
 
         steps:
             - name: Checkout Code
@@ -16,6 +16,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                 node-version: 20
+                chache: 'npm'
 
             - name: Run lint
               run: npm run lint
